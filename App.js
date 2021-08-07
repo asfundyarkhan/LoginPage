@@ -1,21 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import HomeScreen from './assets/Components/Screens/HomeScreen';
+import LoginScreen from './assets/Components/Screens/LoginScreen';
+import styles from './assets/Components/Styles/Styles';
+import * as firebase from 'firebase';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import Navigator from './assets/Components/Navigation/Navigator';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCaTh1qBgJQjTQrJ-bAuwNE6rfTlTx92aQ",
+  authDomain: "loginapppage.firebaseapp.com",
+  projectId: "loginapppage",
+  storageBucket: "loginapppage.appspot.com",
+  messagingSenderId: "963527161930",
+  appId: "1:963527161930:web:84a418fac185cd57b20eb3"
+};
+
+firebase.initializeApp(firebaseConfig);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <NavigationContainer>
+        <Navigator/>
+      </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
