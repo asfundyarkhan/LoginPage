@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 30,
         justifyContent: 'center',
-        alignItems:'stretch',
+        alignItems:'center',
         backgroundColor:'gainsboro',
       },
       emailInputContainer:{

@@ -33,9 +33,9 @@ const LoginScreen = ({navigation}) => {
             alert ("opps something went wrong");
         }
 };
-    const checkIfLoggedIn = () =>{
+    const checkIfLoggedIn = async () =>{
         try{
-        firebase.auth().onAuthStateChanged(function(user){
+            firebase.auth().onAuthStateChanged(function(user){
             if(user){
                 navigation.navigate("HomeScreen")
             }
@@ -43,15 +43,16 @@ const LoginScreen = ({navigation}) => {
                 alert("you need TO signUP")
                 navigation.navigate("LoadingScreen")
             }
-        })
-    }catch(e){
-        console.log(e)
-        alert("fuck!")
-    }
-     };         
+        })}catch(e){
+            alert("there is something wrong")
+            console.log(e)
+        }
+    };         
     return (
         <View styles={styles.container}>
             <TextInput placeholder="Email" onChangeText={setEmail} value={email} style={styles.emailInputContainer}/>
+            <TextInput placeholder="First Name" onChangeText={setFirstName} value={firstName} style={styles.emailInputContainer}/>
+            <TextInput placeholder="First Name" onChangeText={setLastName} value={lastName} style={styles.emailInputContainer}/>
             <TextInput placeholder="Password" onChangeText={setPassword} value={password} style={styles.passwordInputContainer} secureTextEntry={true}/>
             {create ?( <>
                     <Button title ="Sign Up " onPress ={ ()=> signUp({email,password})
