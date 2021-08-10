@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { TextInput, View, Button , Text } from 'react-native';
 import * as firebase from 'firebase';
-import firestore from '@react-native-firebase/firestore';
+import 'firebase/firestore';
 import styles from '../Styles/Styles';
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -22,20 +22,14 @@ const LoginScreen = ({navigation}) => {
         }
 
 };     
-    const signUp = (email ,password) => {
+    const signUp = async (email ,password , firstName , lastName) => {
         try {
-            firebase.auth().createUserWithEmailAndPassword(email,password),
-            firestore()
-                .collection('Users')
-                .doc('abc')
-                .set({
+            firebase.auth().createUserWithEmailAndPassword(email,password)
+            firebase.firestore().collection('Users').doc(firebase.auth().currentUser.uid)
+            .add({
                 firstName: firstName,
                 lastName: lastName,
-                })
-                .then(() => {
-        console.log('User added!');
-            });
-
+            }).then(()=>{  console.log("User Added")});
         }
         catch(e){
             console.log(e)
@@ -64,7 +58,7 @@ const LoginScreen = ({navigation}) => {
             {create ?( <>
                 <TextInput placeholder="First Name" onChangeText={setFirstName} value={firstName} style={styles.emailInputContainer}/>
                 <TextInput placeholder="Last Name" onChangeText={setLastName} value={lastName} style={styles.emailInputContainer}/>
-                    <Button title ="Sign Up " onPress ={ ()=> {signUp(email,password)}
+                    <Button title ="Sign Up " onPress ={ ()=> {signUp(email,password ,firstName ,lastName)}
                     }/>
                    <Text style={styles.Button1} onPress ={ ()=> setCreate(false)}>Sign IN </Text>
                 </> ):( <>
