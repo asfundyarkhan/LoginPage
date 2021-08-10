@@ -1,9 +1,8 @@
 import React,{useState} from 'react';
 import { TextInput, View, Button , Text } from 'react-native';
-import styles from '../Styles/Styles';
-import { sign_In,sign_Up} from '../Utils/FireStore';
 import * as firebase from 'firebase';
-import { NavigationContainer } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
+import styles from '../Styles/Styles';
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password , setPassword] = useState('');
@@ -25,7 +24,17 @@ const LoginScreen = ({navigation}) => {
 };     
     const signUp = (email ,password) => {
         try {
-            firebase.auth().createUserWithEmailAndPassword(email,password)
+            firebase.auth().createUserWithEmailAndPassword(email,password),
+            firestore()
+                .collection('Users')
+                .doc('abc')
+                .set({
+                firstName: firstName,
+                lastName: lastName,
+                })
+                .then(() => {
+        console.log('User added!');
+            });
 
         }
         catch(e){
@@ -35,7 +44,7 @@ const LoginScreen = ({navigation}) => {
 };
     const checkIfLoggedIn = async () =>{
         try{
-            firebase.auth().onAuthStateChanged(function(user){
+            await firebase.auth().onAuthStateChanged(function(user){
             if(user){
                 navigation.navigate("HomeScreen")
             }
@@ -49,13 +58,13 @@ const LoginScreen = ({navigation}) => {
         }
     };         
     return (
-        <View styles={styles.container}>
+        <View style={styles.container}>
             <TextInput placeholder="Email" onChangeText={setEmail} value={email} style={styles.emailInputContainer}/>
-            <TextInput placeholder="First Name" onChangeText={setFirstName} value={firstName} style={styles.emailInputContainer}/>
-            <TextInput placeholder="First Name" onChangeText={setLastName} value={lastName} style={styles.emailInputContainer}/>
             <TextInput placeholder="Password" onChangeText={setPassword} value={password} style={styles.passwordInputContainer} secureTextEntry={true}/>
             {create ?( <>
-                    <Button title ="Sign Up " onPress ={ ()=> signUp({email,password})
+                <TextInput placeholder="First Name" onChangeText={setFirstName} value={firstName} style={styles.emailInputContainer}/>
+                <TextInput placeholder="Last Name" onChangeText={setLastName} value={lastName} style={styles.emailInputContainer}/>
+                    <Button title ="Sign Up " onPress ={ ()=> {signUp(email,password)}
                     }/>
                    <Text style={styles.Button1} onPress ={ ()=> setCreate(false)}>Sign IN </Text>
                 </> ):( <>

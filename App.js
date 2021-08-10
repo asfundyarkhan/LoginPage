@@ -6,6 +6,7 @@ import styles from './assets/Components/Styles/Styles';
 import * as firebase from 'firebase';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import Navigator from './assets/Components/Navigation/Navigator';
+import firestore from '@react-native-firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCaTh1qBgJQjTQrJ-bAuwNE6rfTlTx92aQ",
