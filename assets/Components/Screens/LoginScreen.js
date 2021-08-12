@@ -1,15 +1,25 @@
-import React,{useState} from 'react';
+import React,{useState , useEffect} from 'react';
 import { TextInput, View, Button , Text } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import styles from '../Styles/Styles';
+import {v4 as uuidv4} from 'uuid';
+
+
+
+
+
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password , setPassword] = useState('');
     const [firstName , setFirstName] = useState('');
     const [lastName , setLastName] = useState('');
+    const [loading , setLoading] = useState(false);
+    const [user , setUser] = useState([]);
     //signIn or signUp 
     const  [create , setCreate ] = useState(false);
+    const ref = firebase.firestore().collection('Users');
+
     const signIn = (email , password) =>{
         try {
             firebase.auth().signInWithEmailAndPassword(email , password).then(function(user){
@@ -24,12 +34,14 @@ const LoginScreen = ({navigation}) => {
 };     
     const signUp = async (email ,password , firstName , lastName) => {
         try {
-            firebase.auth().createUserWithEmailAndPassword(email,password)
-            firebase.firestore().collection('Users').doc(firebase.auth().currentUser.uid)
+            await firebase.auth().createUserWithEmailAndPassword(email,password)
+            ref
             .add({
                 firstName: firstName,
                 lastName: lastName,
-            }).then(()=>{  console.log("User Added")});
+            }).then(()=>{ console.log("user Updated");
+            });
+            navigation.navigate("HomeScreen")
         }
         catch(e){
             console.log(e)
@@ -44,7 +56,7 @@ const LoginScreen = ({navigation}) => {
             }
             else{
                 alert("you need TO signUP")
-                navigation.navigate("LoadingScreen")
+                navigation.navigate("LogIn")
             }
         })}catch(e){
             alert("there is something wrong")
