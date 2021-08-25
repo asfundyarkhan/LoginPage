@@ -65,7 +65,7 @@ const LoginScreen = ({navigation}) => {
     };         
     return (
         <View style={styles.container}>
-            <TextInput placeholder="Email" onChangeText={setEmail} value={email} style={styles.emailInputContainer}/>
+            <TextInput placeholder="Email" onChangeText={setEmail} value={email} style={styles.emailInputContainer} keyboardType='email-address' autoCorrect={false} autoCompleteType='email' autoCapitalize='none'/>
             <TextInput placeholder="Password" onChangeText={setPassword} value={password} style={styles.passwordInputContainer} secureTextEntry={true}/>
             {create ?( <>
                 <TextInput placeholder="First Name" onChangeText={setFirstName} value={firstName} style={styles.emailInputContainer}/>
