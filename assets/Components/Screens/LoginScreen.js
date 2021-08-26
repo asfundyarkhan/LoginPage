@@ -4,6 +4,24 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import styles from '../Styles/Styles';
 import {v4 as uuidv4} from 'uuid';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { updateEmail } from '../assets/actions/users'
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({ updateEmail, updatePassword, signup }, dispatch)
+}
+
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Signup)
 
 
 
@@ -28,7 +46,7 @@ const LoginScreen = ({navigation}) => {
         }
         catch(e){
             console.log(e)
-            alert ("opps something went wrong");
+            alert (e);
         }
 
 };     
@@ -45,7 +63,7 @@ const LoginScreen = ({navigation}) => {
         }
         catch(e){
             console.log(e)
-            alert ("opps something went wrong");
+            alert (e);
         }
 };
     const checkIfLoggedIn = async () =>{
@@ -55,11 +73,11 @@ const LoginScreen = ({navigation}) => {
                 navigation.navigate("HomeScreen")
             }
             else{
-                alert("you need TO signUP")
+                alert("you need to SignUP")
                 navigation.navigate("LogIn")
             }
         })}catch(e){
-            alert("there is something wrong")
+            alert(e)
             console.log(e)
         }
     };         

@@ -7,6 +7,18 @@ import * as firebase from 'firebase';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import Navigator from './assets/Components/Navigation/Navigator';
 import firestore from '@react-native-firebase/firestore';
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunkMiddleware from 'redux-thunk'
+import rootReducer from './assets/reducers';
+
+
+
+const middleware = applyMiddleware(thunkMiddleware)
+const store = createStore(rootReducer, middleware)
+
+//firebase configs
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCaTh1qBgJQjTQrJ-bAuwNE6rfTlTx92aQ",
