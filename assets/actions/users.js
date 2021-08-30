@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import { useDispatch, useSelector } from "react-redux";
 
 //define types
 
@@ -44,17 +43,24 @@ export const login = (email, password) => {
   };
 };
 
-export const signup = () => {
-  return async (dispatch, getState) => {
+export const signup = (email,password) => {
+  return async (dispatch) => {
     try {
-      const { email, password } = getState().user;
-      const response = await Firebase.auth().createUserWithEmailAndPassword(
+      const response = await firebase
+      .auth()
+      .createUserWithEmailAndPassword(
         email,
         password
       );
+
+      if (response) {
       dispatch({ type: SIGNUP, payload: response.user });
+      }else return Promise.reject(response);
+
     } catch (e) {
+      console.log("error code here");
       console.log(e);
+      return Promise.reject(e);
     }
   };
 };

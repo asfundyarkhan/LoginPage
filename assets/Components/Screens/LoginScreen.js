@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, View, Button, Text } from "react-native";
 import firebase from "firebase";
-import "firebase/firestore";
+import firestore from  "firebase/firestore";
 import styles from "../Styles/Styles";
 import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
-import { login } from "../../actions/users";
+import { login , signup } from "../../actions/users";
 
 const mapDispatchToProps = (dispatch) => {
   return {
     userLogin: (email, password) => {
-      dispatch(login(email, password));
+      dispatch (login(email, password));
+    },
+    userSignup: (email , password) => {
+        dispatch (signup(email, password));
     },
   };
 };
@@ -21,7 +24,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const LoginScreen = ({ navigation, userLogin, user }) => {
+const LoginScreen = ({ navigation, userLogin , userSignup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -33,11 +36,11 @@ const LoginScreen = ({ navigation, userLogin, user }) => {
   const ref = firebase.firestore().collection("Users");
 
   const signIn = (email, password) => {
-    userLogin(email, password).catch((err) => console.log(err));
+        userLogin(email, password)
   };
-  const signUp = async (email, password, firstName, lastName) => {
+  const signUp = (email, password, firstName, lastName) => {
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+        userSignup(email , password)
       ref
         .add({
           firstName: firstName,
